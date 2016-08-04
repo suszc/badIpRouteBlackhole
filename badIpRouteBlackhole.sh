@@ -16,13 +16,16 @@ curl http://www.badips.com/get/list/${_service}/${_level}?age=${_age} > $_new ||
 #
 #### Setup our black list ###
 ## First flush it
+echo "saving old.txt..."
 ip route show | grep ${_type} | grep -Eo "([0-9]{1,3}[\.]){3}[0-9]{1,3}" > $_old
+echo "removing old IPs..."
 for ip in `cat $_old`
 do
   ip route del ${_type} $ip
 done
 #
 ## store each ip in $ip
+echo "adding new IPs..."
 for ip in `cat $_new`
 do
   ip route add ${_type} $ip
