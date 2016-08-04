@@ -16,3 +16,5 @@ CON:
 
 
 Type can be blackhole, unreachable and prohibit. Unreachable and prohibit correspond to the ICMP reject messages.
+
+[source] https://github.com/fail2ban/fail2ban/blob/5797ea0ae2932ed5f752508da1f49bd76356e537/config/action.d/route.conf
