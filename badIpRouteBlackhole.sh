@@ -19,7 +19,7 @@ curl http://www.badips.com/get/list/${_service}/${_level}?age=${_age} > $_new ||
 ip route show | grep blackhole | grep -Eo "([0-9]{1,3}[\.]){3}[0-9]{1,3}" > $_old
 for ip in `cat $_old`
 do
-  ip route del $ip
+  ip route del ${_type} $ip
 done
 #
 ## store each ip in $ip
