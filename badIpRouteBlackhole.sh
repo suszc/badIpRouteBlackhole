@@ -16,7 +16,7 @@ curl http://www.badips.com/get/list/${_service}/${_level}?age=${_age} > $_new ||
 #
 #### Setup our black list ###
 ## First flush it
-ip route show | grep blackhole | grep -Eo "([0-9]{1,3}[\.]){3}[0-9]{1,3}" > $_old
+ip route show | grep ${_type} | grep -Eo "([0-9]{1,3}[\.]){3}[0-9]{1,3}" > $_old
 for ip in `cat $_old`
 do
   ip route del ${_type} $ip
