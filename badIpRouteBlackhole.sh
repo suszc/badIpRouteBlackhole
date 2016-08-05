@@ -6,7 +6,7 @@
 #
 _new=new.txt           # Name of database (will be downloaded with this name)
 _old=old.txt           # Database name with old blackholed IPs
-_age=2m                # Maximum age you can use h, d, w, m and y, for hours, days, weeks, months and years.
+_age=5m                # Maximum age you can use h, d, w, m and y, for hours, days, weeks, months and years.
 _level=3               # Blog level: not so bad/false report (0) over confirmed bad (3) to quite aggressive (5) (see www.badips.com for that)
 _service=any           # Logged service (see www.badips.com for that)
 _service2=all          # see www.blocklist.de
@@ -17,17 +17,20 @@ curl http://www.badips.com/get/list/${_service}/${_level}?age=${_age} https://ww
 #
 #### Setup our black list ###
 ## First flush it
-echo "saving old.txt..."
+echo "[`date`]   saving old.txt..."
 ip route show | grep ${_type} | grep -Eo "([0-9]{1,3}[\.]){3}[0-9]{1,3}" > $_old
-echo "removing old IPs..."
-for ip in `cat $_old`
+cat $_old $_new | sort | uniq -d > tmp
+cat $_old tmp | sort | uniq -d > tmp
+echo "[`date`]   removing old IPs..."
+for ip in `cat $_old tmp | sort | uniq -u`
 do
   ip route del ${_type} $ip
 done
+rm tmp
 #
 ## store each ip in $ip
-echo "adding new IPs..."
-for ip in `cat $_new`
+echo "[`date`]   adding new IPs..."
+for ip in `cat $_old $_new | sort | uniq -u`
 do
   ip route add ${_type} $ip
 done
