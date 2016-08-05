@@ -9,10 +9,11 @@ _old=old.txt           # Database name with old blackholed IPs
 _age=2m                # Maximum age you can use h, d, w, m and y, for hours, days, weeks, months and years.
 _level=3               # Blog level: not so bad/false report (0) over confirmed bad (3) to quite aggressive (5) (see www.badips.com for that)
 _service=any           # Logged service (see www.badips.com for that)
+_service2=all          # see www.blocklist.de
 _type=blackhole        # Type can be blackhole, unreachable and prohibit. Unreachable and prohibit correspond to the ICMP reject messages.
 #
 ## Get the bad IPs
-curl http://www.badips.com/get/list/${_service}/${_level}?age=${_age} > $_new || { echo "$0: Unable to download ip list."; exit 1; }
+curl http://www.badips.com/get/list/${_service}/${_level}?age=${_age} https://www.blocklist.de/downloads/export-ips_${_service2}.txt | sort | uniq > $_new || { echo "$0: Unable to download ip list."; exit 1; }
 #
 #### Setup our black list ###
 ## First flush it
